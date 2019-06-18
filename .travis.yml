@@ -1,0 +1,31 @@
+branches:
+  except: # Version Tags
+    - /^\d+\.\d+\.\d+(-\S*)?$/
+
+matrix:
+  include:
+    - &macos
+      os: osx
+      osx_image: xcode10.2
+      sudo: required
+      language: objective-c
+
+    - &linux
+      os: linux
+      dist: xenial
+      sudo: required
+      language: ruby
+      before_install:
+        - export SWIFT_ARCHIVE_URL="https://swift.org/builds/swift-5.0.1-release/ubuntu1604/swift-5.0.1-RELEASE/swift-5.0.1-RELEASE-ubuntu16.04.tar.gz"
+        - curl ${SWIFT_ARCHIVE_URL} -o ../swift.tar.gz
+        - mkdir ../swift
+        - tar xzf ../swift.tar.gz -C ../swift --strip-components 2
+        - export PATH="$(dirname $(pwd))/swift/bin:$PATH"
+
+script:
+  - swift test -Xswiftc -swift-version -Xswiftc 5
+  - swift test -Xswiftc -swift-version -Xswiftc 4.2
+  - swift test -Xswiftc -swift-version -Xswiftc 4
+  - swift build --configuration release  -Xswiftc -swift-version -Xswiftc 5
+  - swift build --configuration release  -Xswiftc -swift-version -Xswiftc 4.2
+  - swift build --configuration release  -Xswiftc -swift-version -Xswiftc 4

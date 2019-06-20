@@ -5,12 +5,25 @@ branches:
 matrix:
   include:
     - &macos
+      name: "Tests on macOS"
       os: osx
       osx_image: xcode10.2
       sudo: required
       language: objective-c
+      script: &tests
+        - swift test -Xswiftc -swift-version -Xswiftc 5
+        - swift test -Xswiftc -swift-version -Xswiftc 4.2
+        - swift test -Xswiftc -swift-version -Xswiftc 4
+
+    - <<: *macos
+      name: "Release Builds on macOS"
+      script: &release_builds
+        - swift build --configuration release  -Xswiftc -swift-version -Xswiftc 5
+        - swift build --configuration release  -Xswiftc -swift-version -Xswiftc 4.2
+        - swift build --configuration release  -Xswiftc -swift-version -Xswiftc 4
 
     - &linux
+      name: "Tests on Linux"
       os: linux
       dist: xenial
       sudo: required
@@ -21,11 +34,8 @@ matrix:
         - mkdir ../swift
         - tar xzf ../swift.tar.gz -C ../swift --strip-components 2
         - export PATH="$(dirname $(pwd))/swift/bin:$PATH"
+      script: *tests
 
-script:
-  - swift test -Xswiftc -swift-version -Xswiftc 5
-  - swift test -Xswiftc -swift-version -Xswiftc 4.2
-  - swift test -Xswiftc -swift-version -Xswiftc 4
-  - swift build --configuration release  -Xswiftc -swift-version -Xswiftc 5
-  - swift build --configuration release  -Xswiftc -swift-version -Xswiftc 4.2
-  - swift build --configuration release  -Xswiftc -swift-version -Xswiftc 4
+    - <<: *linux
+      name: "Release Builds on Linux"
+      script: *release_builds

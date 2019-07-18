@@ -29,7 +29,7 @@ matrix:
       sudo: required
       language: ruby
       before_install:
-        - export SWIFT_ARCHIVE_URL="https://swift.org/builds/swift-5.0.1-release/ubuntu1604/swift-5.0.1-RELEASE/swift-5.0.1-RELEASE-ubuntu16.04.tar.gz"
+        - export SWIFT_ARCHIVE_URL="https://swift.org/builds/swift-5.0.2-release/ubuntu1604/swift-5.0.2-RELEASE/swift-5.0.2-RELEASE-ubuntu16.04.tar.gz"
         - curl ${SWIFT_ARCHIVE_URL} -o ../swift.tar.gz
         - mkdir ../swift
         - tar xzf ../swift.tar.gz -C ../swift --strip-components 2

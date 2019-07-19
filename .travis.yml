@@ -1,6 +1,6 @@
 branches:
   except: # Version Tags
-    - /^\d+\.\d+\.\d+(-\S*)?$/
+    - /^\d+\.\d+\.\d+(\-\S*)?(\+\S*)?$/
 
 matrix:
   include:

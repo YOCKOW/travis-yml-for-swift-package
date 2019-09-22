@@ -1,0 +1,19 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  Test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+        swift_compat_version: ['4', '4.2', '5']
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@master
+    - uses: YOCKOW/Action-setup-swift@master
+      with:
+        swift-version: '5.0.3'
+    - name: Test with debug mode.
+      run: swift test -Xswiftc -swift-version -Xswiftc ${{ matrix.swift_compat_version }}
+    - name: Test with release mode.
+      run: swift test --configuration release -Xswiftc -enable-testing -Xswiftc -swift-version -Xswiftc ${{ matrix.swift_compat_version }}
+      

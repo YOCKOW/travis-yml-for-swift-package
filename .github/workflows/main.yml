@@ -12,6 +12,7 @@ jobs:
     - uses: YOCKOW/Action-setup-swift@master
       with:
         swift-version: '5.0.3'
+      if: startsWith( matrix.os, 'ubuntu' )
     - name: Test with debug mode.
       run: swift test -Xswiftc -swift-version -Xswiftc ${{ matrix.swift_compat_version }}
     - name: Test with release mode.

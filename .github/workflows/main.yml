@@ -1,5 +1,13 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '!*'
+  pull_request:
+    branches:
+      - '*'
 jobs:
   Test:
     strategy:
@@ -11,7 +19,7 @@ jobs:
     - uses: actions/checkout@master
     - uses: YOCKOW/Action-setup-swift@master
       with:
-        swift-version: '5.0.3'
+        swift-version: '5.1'
     - name: Test with debug mode.
       run: swift test -Xswiftc -swift-version -Xswiftc ${{ matrix.swift_compat_version }}
     - name: Test with release mode.
